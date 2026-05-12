@@ -1,0 +1,522 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Register — AuthApp</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+    <style>
+      *,
+      *::before,
+      *::after {
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+      }
+
+      :root {
+        --bg: #0a0a0f;
+        --surface: #111118;
+        --border: rgba(255, 255, 255, 0.08);
+        --accent: #7c5cfc;
+        --accent2: #c084fc;
+        --text: #f0eeff;
+        --muted: #8b8ba0;
+        --error: #ff6b81;
+        --success: #56cfb2;
+        --input-bg: rgba(255, 255, 255, 0.04);
+        --radius: 16px;
+      }
+
+      body {
+        min-height: 100vh;
+        background: var(--bg);
+        font-family: "DM Sans", sans-serif;
+        color: var(--text);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        overflow-x: hidden;
+        position: relative;
+        padding: 24px 0;
+      }
+
+      body::before {
+        content: "";
+        position: fixed;
+        width: 600px;
+        height: 600px;
+        background: radial-gradient(
+          circle,
+          rgba(124, 92, 252, 0.15) 0%,
+          transparent 70%
+        );
+        top: -200px;
+        right: -200px;
+        animation: float 9s ease-in-out infinite;
+      }
+      body::after {
+        content: "";
+        position: fixed;
+        width: 500px;
+        height: 500px;
+        background: radial-gradient(
+          circle,
+          rgba(192, 132, 252, 0.1) 0%,
+          transparent 70%
+        );
+        bottom: -150px;
+        left: -150px;
+        animation: float 11s ease-in-out infinite reverse;
+      }
+
+      @keyframes float {
+        0%,
+        100% {
+          transform: translateY(0) scale(1);
+        }
+        50% {
+          transform: translateY(-30px) scale(1.05);
+        }
+      }
+
+      .container {
+        width: 100%;
+        max-width: 440px;
+        padding: 24px;
+        position: relative;
+        z-index: 10;
+        animation: slideUp 0.6s cubic-bezier(0.22, 1, 0.36, 1) both;
+      }
+
+      @keyframes slideUp {
+        from {
+          opacity: 0;
+          transform: translateY(40px);
+        }
+        to {
+          opacity: 1;
+          transform: translateY(0);
+        }
+      }
+
+      .brand {
+        text-align: center;
+        margin-bottom: 36px;
+      }
+      .brand-icon {
+        width: 56px;
+        height: 56px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        border-radius: 16px;
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 26px;
+        margin-bottom: 16px;
+        box-shadow: 0 8px 32px rgba(124, 92, 252, 0.4);
+      }
+      .brand h1 {
+        font-family: "Syne", sans-serif;
+        font-size: 28px;
+        font-weight: 800;
+        letter-spacing: -0.5px;
+        background: linear-gradient(135deg, #fff 40%, var(--accent2));
+        -webkit-background-clip: text;
+        -webkit-text-fill-color: transparent;
+      }
+      .brand p {
+        color: var(--muted);
+        font-size: 14px;
+        margin-top: 6px;
+      }
+
+      .card {
+        background: var(--surface);
+        border: 1px solid var(--border);
+        border-radius: 24px;
+        padding: 36px 32px;
+        box-shadow: 0 32px 80px rgba(0, 0, 0, 0.5);
+      }
+
+      .form-group {
+        margin-bottom: 18px;
+      }
+
+      label {
+        display: block;
+        font-size: 13px;
+        font-weight: 500;
+        color: var(--muted);
+        margin-bottom: 8px;
+        letter-spacing: 0.3px;
+        text-transform: uppercase;
+      }
+
+      .input-wrap {
+        position: relative;
+      }
+      .input-icon {
+        position: absolute;
+        left: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        font-size: 18px;
+        pointer-events: none;
+      }
+      input {
+        width: 100%;
+        padding: 14px 14px 14px 44px;
+        background: var(--input-bg);
+        border: 1px solid var(--border);
+        border-radius: var(--radius);
+        color: var(--text);
+        font-family: "DM Sans", sans-serif;
+        font-size: 15px;
+        transition:
+          border-color 0.2s,
+          box-shadow 0.2s;
+        outline: none;
+      }
+      input::placeholder {
+        color: rgba(255, 255, 255, 0.2);
+      }
+      input:focus {
+        border-color: var(--accent);
+        box-shadow: 0 0 0 3px rgba(124, 92, 252, 0.2);
+      }
+
+      .toggle-pw {
+        position: absolute;
+        right: 14px;
+        top: 50%;
+        transform: translateY(-50%);
+        background: none;
+        border: none;
+        color: var(--muted);
+        cursor: pointer;
+        font-size: 18px;
+        padding: 4px;
+        transition: color 0.2s;
+      }
+      .toggle-pw:hover {
+        color: var(--text);
+      }
+
+      .strength-bar {
+        height: 4px;
+        border-radius: 4px;
+        background: var(--border);
+        margin-top: 8px;
+        overflow: hidden;
+      }
+      .strength-fill {
+        height: 100%;
+        border-radius: 4px;
+        width: 0%;
+        transition:
+          width 0.3s,
+          background 0.3s;
+      }
+      .strength-label {
+        font-size: 12px;
+        color: var(--muted);
+        margin-top: 4px;
+      }
+
+      .btn {
+        width: 100%;
+        padding: 15px;
+        background: linear-gradient(135deg, var(--accent), var(--accent2));
+        border: none;
+        border-radius: var(--radius);
+        color: #fff;
+        font-family: "Syne", sans-serif;
+        font-size: 16px;
+        font-weight: 700;
+        cursor: pointer;
+        letter-spacing: 0.3px;
+        transition:
+          transform 0.15s,
+          box-shadow 0.15s,
+          opacity 0.15s;
+        box-shadow: 0 8px 24px rgba(124, 92, 252, 0.4);
+        margin-top: 8px;
+      }
+      .btn:hover:not(:disabled) {
+        transform: translateY(-2px);
+        box-shadow: 0 12px 32px rgba(124, 92, 252, 0.55);
+      }
+      .btn:active:not(:disabled) {
+        transform: translateY(0);
+      }
+      .btn:disabled {
+        opacity: 0.7;
+        cursor: not-allowed;
+      }
+
+      .alert {
+        padding: 13px 16px;
+        border-radius: 12px;
+        font-size: 14px;
+        margin-bottom: 20px;
+        display: none;
+        align-items: center;
+        gap: 10px;
+      }
+      .alert.error {
+        background: rgba(255, 107, 129, 0.12);
+        border: 1px solid rgba(255, 107, 129, 0.3);
+        color: var(--error);
+        display: flex;
+      }
+      .alert.success {
+        background: rgba(86, 207, 178, 0.12);
+        border: 1px solid rgba(86, 207, 178, 0.3);
+        color: var(--success);
+        display: flex;
+      }
+
+      .divider {
+        text-align: center;
+        margin: 24px 0;
+        position: relative;
+        color: var(--muted);
+        font-size: 13px;
+      }
+      .divider::before,
+      .divider::after {
+        content: "";
+        position: absolute;
+        top: 50%;
+        width: 38%;
+        height: 1px;
+        background: var(--border);
+      }
+      .divider::before {
+        left: 0;
+      }
+      .divider::after {
+        right: 0;
+      }
+
+      .footer-link {
+        text-align: center;
+        font-size: 14px;
+        color: var(--muted);
+        margin-top: 24px;
+      }
+      .footer-link a {
+        color: var(--accent2);
+        text-decoration: none;
+        font-weight: 500;
+      }
+      .footer-link a:hover {
+        text-decoration: underline;
+      }
+
+      .spinner {
+        width: 18px;
+        height: 18px;
+        border: 2px solid rgba(255, 255, 255, 0.3);
+        border-top-color: #fff;
+        border-radius: 50%;
+        animation: spin 0.6s linear infinite;
+        display: inline-block;
+        margin-right: 8px;
+        vertical-align: middle;
+      }
+      @keyframes spin {
+        to {
+          transform: rotate(360deg);
+        }
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <div class="brand">
+        <div class="brand-icon">✨</div>
+        <h1>Create account</h1>
+        <p>Join AuthApp — it only takes a minute</p>
+      </div>
+
+      <div class="card">
+        <div class="alert" id="alert"></div>
+
+        <div class="form-group">
+          <label for="name">Full Name</label>
+          <div class="input-wrap">
+            <span class="input-icon">👤</span>
+            <input
+              type="text"
+              id="name"
+              placeholder="John Doe"
+              autocomplete="name"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="email">User Id</label>
+          <div class="input-wrap">
+            <span class="input-icon">✉️</span>
+            <input
+              type="text"
+              id="username"
+              placeholder="Choose a username"
+              autocomplete="username"
+            />
+          </div>
+        </div>
+
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔑</span>
+            <input
+              type="password"
+              id="password"
+              placeholder="Min. 6 characters"
+              oninput="updateStrength()"
+            />
+            <button class="toggle-pw" id="togglePw1" type="button">👁️</button>
+          </div>
+          <div class="strength-bar">
+            <div class="strength-fill" id="strengthFill"></div>
+          </div>
+          <div class="strength-label" id="strengthLabel"></div>
+        </div>
+
+        <div class="form-group">
+          <label for="confirmPassword">Confirm Password</label>
+          <div class="input-wrap">
+            <span class="input-icon">🔒</span>
+            <input
+              type="password"
+              id="confirmPassword"
+              placeholder="Repeat your password"
+            />
+            <button class="toggle-pw" id="togglePw2" type="button">👁️</button>
+          </div>
+        </div>
+
+        <button class="btn" id="registerBtn" onclick="handleRegister()">
+          Create Account
+        </button>
+
+        <div class="divider">or</div>
+
+        <div class="footer-link">
+          Already have an account? <a href="/">Sign in →</a>
+        </div>
+      </div>
+    </div>
+
+    <script>
+      document.getElementById("togglePw1").addEventListener("click", () => {
+        const pw = document.getElementById("password");
+        const btn = document.getElementById("togglePw1");
+        pw.type = pw.type === "password" ? "text" : "password";
+        btn.textContent = pw.type === "password" ? "👁️" : "🙈";
+      });
+      document.getElementById("togglePw2").addEventListener("click", () => {
+        const pw = document.getElementById("confirmPassword");
+        const btn = document.getElementById("togglePw2");
+        pw.type = pw.type === "password" ? "text" : "password";
+        btn.textContent = pw.type === "password" ? "👁️" : "🙈";
+      });
+
+      document
+        .getElementById("confirmPassword")
+        .addEventListener("keydown", (e) => {
+          if (e.key === "Enter") handleRegister();
+        });
+
+      function updateStrength() {
+        const pw = document.getElementById("password").value;
+        const fill = document.getElementById("strengthFill");
+        const label = document.getElementById("strengthLabel");
+
+        let score = 0;
+        if (pw.length >= 6) score++;
+        if (pw.length >= 10) score++;
+        if (/[A-Z]/.test(pw)) score++;
+        if (/[0-9]/.test(pw)) score++;
+        if (/[^A-Za-z0-9]/.test(pw)) score++;
+
+        const levels = [
+          { pct: "0%", color: "", text: "" },
+          { pct: "25%", color: "#ff6b81", text: "Weak" },
+          { pct: "50%", color: "#ffa94d", text: "Fair" },
+          { pct: "75%", color: "#74c0fc", text: "Good" },
+          { pct: "100%", color: "#56cfb2", text: "Strong" },
+          { pct: "100%", color: "#56cfb2", text: "Very Strong 🔥" },
+        ];
+
+        const lvl = levels[Math.min(score, 5)];
+        fill.style.width = lvl.pct;
+        fill.style.background = lvl.color;
+        label.textContent = pw.length ? lvl.text : "";
+        label.style.color = lvl.color;
+      }
+
+      function showAlert(msg, type) {
+        const el = document.getElementById("alert");
+        el.className = "alert " + type;
+        el.innerHTML = (type === "error" ? "⚠️ " : "✅ ") + msg;
+      }
+
+      async function handleRegister() {
+        const name = document.getElementById("name").value.trim();
+        const username = document.getElementById("username").value.trim();
+        const password = document.getElementById("password").value;
+        const confirmPassword =
+          document.getElementById("confirmPassword").value;
+        const btn = document.getElementById("registerBtn");
+        const alertEl = document.getElementById("alert");
+
+        alertEl.className = "alert";
+
+        if (!name || !username || !password || !confirmPassword) {
+          return showAlert("All fields are required.", "error");
+        }
+        if (password !== confirmPassword) {
+          return showAlert("Passwords do not match.", "error");
+        }
+        if (password.length < 6) {
+          return showAlert("Password must be at least 6 characters.", "error");
+        }
+
+        btn.disabled = true;
+        btn.innerHTML = '<span class="spinner"></span>Creating account…';
+
+        try {
+          const res = await fetch("/auth/register", {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ name, username, password, confirmPassword }),
+          });
+          const data = await res.json();
+
+          if (res.ok) {
+            showAlert("Account created! Redirecting to dashboard…", "success");
+            setTimeout(() => (window.location.href = "/dashboard"), 900);
+          } else {
+            showAlert(data.message || "Registration failed.", "error");
+            btn.disabled = false;
+            btn.textContent = "Create Account";
+          }
+        } catch (err) {
+          showAlert("Network error. Is the server running?", "error");
+          btn.disabled = false;
+          btn.textContent = "Create Account";
+        }
+      }
+    </script>
+  </body>
+</html>

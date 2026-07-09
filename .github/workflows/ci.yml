@@ -2,7 +2,12 @@ name: Login App CI
 
 on:
   push:
-    branches: -main
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+  workflow_dispatch:
 
 jobs:
   build:
@@ -25,3 +30,9 @@ jobs:
 
       - name: Check npm Version
         run: npm --version
+
+      - name: List Project Files
+        run: ls -la
+
+      - name: Success Message
+        run: echo "GitHub Actions workflow completed successfully!"

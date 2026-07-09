@@ -6,6 +6,7 @@ A complete login/register system with session-based authentication and MongoDB s
 
 ```
 login-app/
+|-- .github/workflows/ci.yml
 ├── server.js               ← Main entry point
 ├── package.json
 ├── .env                    ← Environment variables (MongoDB URI, secret)
